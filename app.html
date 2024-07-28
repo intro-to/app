@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #balance {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="register-container" id="registerContainer">
+            <h1>Register</h1>
+            <input type="text" id="newUsername" placeholder="Username">
+            <input type="password" id="newPassword" placeholder="Password">
+            <button onclick="register()">Register</button>
+        </div>
+        <div class="login-container" id="loginContainer" style="display: none;">
+            <h1>Money App</h1>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
+        <div class="dashboard-container" id="dashboardContainer" style="display: none;">
+            <h1>Welcome to Money App</h1>
+            <button onclick="showForm()">Fill Form</button>
+            <div id="formContainer" style="display: none;">
+                <h2>Transaction Form</h2>
+                <input type="text" id="fullName" placeholder="Full Name">
+                <input type="text" id="nin" placeholder="NIN">
+                <input type="text" id="adress" placeholder="Address">
+                <input type="number" id="contact" placeholder="Contact">
+                <input type="text" id="nextofkin" placeholder="Next of Kin">
+                <input type="number" id="amount" placeholder="Amount">
+                <textarea id="signature" placeholder="Signature"></textarea>
+                <button onclick="submitForm()">Submit</button>
+            </div>
+            <div id="balance" style="display: none;">
+                <h2>Your Balance: $1000</h2>
+            </div>
+        </div>
+    </div>
+    <script>
+        var users = [];
+
+        function register() {
+            var newUsername = document.getElementById('newUsername').value;
+            var newPassword = document.getElementById('newPassword').value;
+
+            if (!newUsername || !newPassword) {
+                alert('Please fill in both fields');
+                return;
+            }
+
+            users.push({username: newUsername, password: newPassword});
+            alert('Registration successful! Please log in.');
+            document.getElementById('registerContainer').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'block';
+        }
+
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                alert('Please enter both username and password');
+                return;
+            }
+
+            var user = users.find(user => user.username === username && user.password === password);
+            if (user) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('dashboardContainer').style.display = 'block';
+            } else {
+                alert('Incorrect username or password');
+            }
+        }
+
+        function showForm() {
+            document.getElementById('formContainer').style.display = 'block';
+        }
+
+        function submitForm() {
+            var fullName = document.getElementById('fullName').value;
+            var nin = document.getElementById('nin').value;
+            var adress = document.getElementById('adress').value;
+            var contact = document.getElementById('contact').value;
+            var nextofkin = document.getElementById('nextofkin').value;
+            var amount = document.getElementById('amount').value;
+            var signature = document.getElementById('signature').value;
+
+            if (!fullName) {
+                alert('Please enter your full name');
+                return;
+            }
+
+            if (!nin) {
+                alert('Please enter your NIN');
+                return;
+            }
+
+            if (!adress) {
+                alert('Please enter your address');
+                return;
+            }
+
+            if (!contact || isNaN(contact) || contact <= 0) {
+                alert('Please enter a valid contact number');
+                return;
+            }
+
+            if (!nextofkin) {
+                alert('Please enter your next of kin');
+                return;
+            }
+
+            if (!amount || isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            if (!signature) {
+                alert('Please provide your signature');
+                return;
+            }
+
+            alert('Form Submitted Successfully!');
+            document.getElementById('formContainer').style.display = 'none';
+            document.getElementById('balance').style.display = 'block';
+        }
+
+        function showBalance() {
+            document.getElementById('balance').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
